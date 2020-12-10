@@ -1,0 +1,51 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace HelloWorld
+{
+    class MyClass
+    {
+        public static void Main()
+        {
+            Console.WriteLine(AlternateCharCases("при4вет"));
+        }
+
+        public static List<string> AlternateCharCases(string lowercaseWord)
+        {
+            var result = new List<string>();
+            AlternateCharCases(lowercaseWord.ToCharArray(), 0, result);
+            return result;
+        }
+
+        static void AlternateCharCases(char[] word, int startIndex, List<string> result)
+        {
+            var str = new string(word);
+            
+            if (startIndex == word.Length || startIndex == -1)
+            {
+                result.Add(str);
+                return;
+            }
+            
+            if ((word[startIndex] >= 'a' && word[startIndex] <= 'z') ||
+                (word[startIndex] >= 'а' && word[startIndex] <= 'я'))
+            {
+                AlternateCharCases(word, startIndex + 1, result);
+                var copyWord = MakeCopyWord(word);
+                copyWord[startIndex] = Char.ToUpper(copyWord[startIndex]);
+                AlternateCharCases(copyWord, startIndex + 1, result);
+            }
+            else AlternateCharCases(word, startIndex + 1, result);
+        }
+        
+        public static char[] MakeCopyWord(char[] word)
+        {
+            var copyWord = new char[word.Length];
+            for (var i = 0; i < copyWord.Length; i++)
+                copyWord[i] = word[i];
+            return copyWord;
+        }
+    }
+}
+                
